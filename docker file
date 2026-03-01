@@ -1,0 +1,9 @@
+vim Dockerfile #D is spetial required
+FROM ubuntu
+WORKDIR /tmp
+RUN echo "hi boges" > /tmp/rithu
+ENV name=reddy
+COPY file1 /tmp
+
+#docker build -t image-1 .
+#docker run -it --name cont-1 image-1
