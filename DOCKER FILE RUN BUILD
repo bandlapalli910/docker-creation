@@ -1,0 +1,13 @@
+vim Dockerfile
+FROM ubuntu
+WORKDIR /tmp
+run echo "hi systemctl start docker" >/tmp/rith1
+ENV name boges
+copy file1 /tmp
+ADD test.tar.gz /tmp
+
+# docker build -t myimage .
+#docker run -it --name cont-1 myimages
+#touch file1
+#touch test
+#
