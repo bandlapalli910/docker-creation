@@ -15,4 +15,4 @@ docker volume create volume-v1
 
 Run Container + Attach Volume
       ↓
-docker run -dit -v volume-v1:/app nginx
+docker run -dit --name cont-1 -v volume-v1:/app nginx
