@@ -9,10 +9,4 @@ COPY file1 /tmp
 #docker run -it --name cont-1 image-1 #create container
 docker push bogeswar/container:v1  #push image to docker hub
 
-Create Volume
-      ↓
-docker volume create volume-v1
 
-Run Container + Attach Volume
-      ↓
-docker run -dit --name cont-1 -v volume-v1:/app nginx
