@@ -1,0 +1,20 @@
+Create Volume
+      ↓
+docker volume create volume-v1
+
+Run Container + Attach Volume
+      ↓
+docker run -dit --name cont-1 -v volume-v1:/app nginx
+------------------------------------
+docker run -dit --name cont-1 -v volume-v1:/app nginx
+Meaning
+
+cont-1 → container name
+
+volume-v1 → Docker volume
+
+/app → folder inside container
+
+nginx → container image (from Nginx)
+
+📦 Now the volume is attached to /app inside the container.
