@@ -1,0 +1,57 @@
+# Install Git
+sudo dnf install git -y
+
+# Check Git
+git --version
+
+# Clone sample project
+git clone https://github.com/spring-projects/spring-petclinic.git
+
+# Go to project
+cd spring-petclinic
+
+# Build project using Maven
+mvn clean package
+
+# Check build output
+ls target
+
+# Create Dockerfile
+cat <<EOF > Dockerfile
+FROM openjdk:17
+COPY target/*.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+EOF
+
+# Build Docker image
+docker build -t devops-app:v1 .
+
+# Run Docker container
+docker run -d -p 8080:8080 --name devops-container devops-app:v1
+
+# Login Docker Hub
+docker login
+
+# Tag Docker image
+docker tag devops-app:v1 <dockerhub-username>/devops-app:v1
+
+# Push Docker image
+docker push <dockerhub-username>/devops-app:v1
+
+# Start Minikube cluster
+minikube start
+
+# Create Kubernetes deployment
+kubectl create deployment devops-app --image=<dockerhub-username>/devops-app:v1
+
+# Expose service
+kubectl expose deployment devops-app --type=NodePort --port=8080
+
+# Check pods
+kubectl get pods
+
+# Check services
+kubectl get svc
+
+# Access application
+minikube service devops-app
