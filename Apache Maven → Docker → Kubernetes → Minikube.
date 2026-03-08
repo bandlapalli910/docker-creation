@@ -1,0 +1,90 @@
+# Install Java
+sudo dnf install java-17-amazon-corretto -y
+
+# Verify Java
+java -version
+
+# Download Maven
+wget https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.tar.gz
+
+# Extract Maven
+tar -xvzf apache-maven-3.9.9-bin.tar.gz
+
+# Move Maven
+sudo mv apache-maven-3.9.9 /opt/maven
+
+# Set Environment Variables
+echo 'export M2_HOME=/opt/maven' >> ~/.bashrc
+echo 'export PATH=$PATH:$M2_HOME/bin' >> ~/.bashrc
+source ~/.bashrc
+
+# Verify Maven
+mvn -version
+
+# Create Maven Project
+mvn archetype:generate
+
+# Use these inputs
+# groupId: com.devops
+# artifactId: myapp
+# version: 1.0-SNAPSHOT
+# package: com.devops
+# Confirm: Y
+
+# Go to project
+cd myapp
+
+# Maven build lifecycle
+mvn clean
+mvn compile
+mvn test
+mvn package
+mvn install
+
+# Check target file
+ls target
+
+# Create Dockerfile
+cat <<EOF > Dockerfile
+FROM openjdk:17
+COPY target/myapp-1.0-SNAPSHOT.jar app.jar
+ENTRYPOINT ["java","-jar","/app.jar"]
+EOF
+
+# Build Docker image
+docker build -t myapp:v1 .
+
+# Run container
+docker run -d -p 8080:8080 --name myapp-container myapp:v1
+
+# Login Docker Hub
+docker login
+
+# Tag image
+docker tag myapp:v1 <dockerhub-username>/myapp:v1
+
+# Push image
+docker push <dockerhub-username>/myapp:v1
+
+# Start Kubernetes cluster
+minikube start
+
+# Deploy application
+kubectl create deployment myapp --image=<dockerhub-username>/myapp:v1
+
+# Expose service
+kubectl expose deployment myapp --type=NodePort --port=8080
+
+# Check pods
+kubectl get pods
+
+# Check services
+kubectl get svc
+
+# Access application
+minikube service myapp
+
+
+
+============================
+Maven Project → Build JAR → Docker Image → Push to Docker Hub → Kubernetes Deployment
