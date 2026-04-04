@@ -1,20 +1,25 @@
-Create Volume
-      ↓
-docker volume create volume-v1
+First, I create a Dockerfile in my project folder.
 
-Run Container + Attach Volume
-      ↓
-docker run -dit --name cont-1 -v volume-v1:/app nginx
-------------------------------------
-docker run -dit --name cont-1 -v volume-v1:/app nginx
-Meaning
+Then I build the image:
+`docker build -t image-1 .`
 
-cont-1 → container name
+Next, I create and run a container:
+`docker run -dit --name cont-1 image-1`
 
-volume-v1 → Docker volume
+Then I login to Docker Hub:
+`docker login`
 
-/app → folder inside container
+After that, I tag the image with my username:
+`docker tag image-1 username/image-1`
 
-nginx → container image (from Nginx)
+Finally, I push the image:
+`docker push username/image-1`
+================================================================
+First, I create a volume:
+`docker volume create my-volume`
 
-📦 Now the volume is attached to /app inside the container.
+Then I attach it while running the container:
+`docker run -dit --name cont-1 -v my-volume:/data image-1`
+
+Here, the volume is mounted to `/data` inside the container.
+
